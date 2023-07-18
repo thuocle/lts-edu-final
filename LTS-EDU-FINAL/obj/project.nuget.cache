@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "5wecvXWp2LO16t111W2u6OPStLbU6PRaebrVtW9Gyu3eMC1KxuyHJ1ZJc5um2aOjdvz0aJmVDPWINN/4nSkRaQ==",
+  "success": true,
+  "projectFilePath": "D:\\Máy tính\\API-SOLUTION\\lts-edu-final\\LTS-EDU-FINAL\\LTS-EDU-FINAL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\anhtu\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\anhtu\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\anhtu\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\anhtu\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\anhtu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\anhtu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
