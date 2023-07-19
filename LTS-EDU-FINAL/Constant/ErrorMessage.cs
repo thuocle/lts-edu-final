@@ -1,6 +1,7 @@
 ﻿namespace LTS_EDU_FINAL.Constant
 {
-    public class ErrorMessage
-    {
-    }
+        public enum ErrorMessage
+        {
+            ThanhCong, ThatBai, KhongTonTai, DaTonTai, DuLieuTrong
+        }
 }

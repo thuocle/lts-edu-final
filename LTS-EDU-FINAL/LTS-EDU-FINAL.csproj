@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IServices\" />
-    <Folder Include="Services\" />
+    <Folder Include="Image\" />
+    <Folder Include="DTOs\" />
   </ItemGroup>
 
 </Project>
