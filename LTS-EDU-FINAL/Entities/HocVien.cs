@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LTS_EDU_FINAL.Entities
@@ -25,5 +26,7 @@ namespace LTS_EDU_FINAL.Entities
         [Column(TypeName = "varchar")]
         [MaxLength(50)]
         public string? SoNha { get; set; }
+        [JsonIgnore]
+        public IEnumerable<DangKyHoc>? DangKyHoc { get; set; }  
     }
 }

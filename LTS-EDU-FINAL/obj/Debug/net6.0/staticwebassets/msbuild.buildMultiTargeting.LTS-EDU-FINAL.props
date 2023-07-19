@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\LTS-EDU-FINAL.props" />
+</Project>

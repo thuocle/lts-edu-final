@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace LTS_EDU_FINAL.Entities
 {
@@ -15,6 +16,9 @@ namespace LTS_EDU_FINAL.Entities
         public int? SoLuongMon { get; set; }
         public string? HinhAnh { get; set; }
         public int? LoaiKhoaHocID { get; set; }
+        [JsonIgnore]
         public LoaiKhoaHoc? LoaiKhoaHoc { get; set; }
+        [JsonIgnore]
+        public IEnumerable<DangKyHoc>? DangKyHoc { get; set; }
     }
 }
