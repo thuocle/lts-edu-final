@@ -73,7 +73,6 @@ namespace LTS_EDU_FINAL.Services
 
         public async Task<ErrorMessage> XoaQuyenHanAsync(int qhID)
         {
-
             using (var trans = await dbContext.Database.BeginTransactionAsync())
             {
                 try
