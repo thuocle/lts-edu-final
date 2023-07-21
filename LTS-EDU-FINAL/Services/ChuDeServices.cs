@@ -25,9 +25,12 @@ namespace LTS_EDU_FINAL.Services
             return await dbContext.ChuDe.AnyAsync(x => x.TenChuDe == tencd);
         }
         #endregion
-        public Task<PageInfo<ChuDe>> HienThiChuDeAsync(Pagination page)
+        public async Task<PageInfo<ChuDe>> HienThiChuDeAsync(Pagination page)
         {
-            throw new NotImplementedException();
+            var lst = dbContext.ChuDe.AsQueryable();
+            var data = PageInfo<ChuDe>.ToPageInfo(page, lst);
+            page.TotalItem = await lst.CountAsync();
+            return new PageInfo<ChuDe>(page, data);
         }
 
         public async Task<ErrorMessage> SuaChuDeAsync(ChuDe cd, int cdID)
