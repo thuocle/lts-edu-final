@@ -4,6 +4,7 @@ using LTS_EDU_FINAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LTS_EDU_FINAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230721063306_update_v2")]
+    partial class update_v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,16 +108,16 @@ namespace LTS_EDU_FINAL.Migrations
                     b.Property<int?>("KhoaHocID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("NgayBatDau")
+                    b.Property<DateTime?>("NgayBatDau")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("NgayDangKy")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("NgayKetThuc")
+                    b.Property<DateTime?>("NgayKetThuc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TaiKhoanID")
+                    b.Property<int>("TaiKhoanID")
                         .HasColumnType("int");
 
                     b.Property<int?>("TinhTrangHocID")
@@ -363,7 +366,9 @@ namespace LTS_EDU_FINAL.Migrations
 
                     b.HasOne("LTS_EDU_FINAL.Entities.TaiKhoan", "TaiKhoan")
                         .WithMany("DangKyHoc")
-                        .HasForeignKey("TaiKhoanID");
+                        .HasForeignKey("TaiKhoanID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LTS_EDU_FINAL.Entities.TinhTrangHoc", "TinhTrangHoc")
                         .WithMany("DangKyHoc")

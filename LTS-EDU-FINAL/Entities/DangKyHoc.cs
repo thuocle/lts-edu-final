@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace LTS_EDU_FINAL.Entities
 {
@@ -11,9 +12,12 @@ namespace LTS_EDU_FINAL.Entities
         public int? HocVienID { get; set; }
         [JsonIgnore]
         public HocVien? HocVien { get; set; }
-        public DateTime? NgayDangKy { get; set; }
-        public DateTime? NgayBatDau { get; set; }
-        public DateTime? NgayKetThuc { get; set; }
+        [JsonIgnore]
+        public DateTime? NgayDangKy { get; set; } = DateTime.Now;
+        [JsonIgnore]
+        public DateTime NgayBatDau { get; set; }
+        [JsonIgnore]
+        public DateTime NgayKetThuc { get; set; }
         public int? TinhTrangHocID { get; set; }
         [JsonIgnore]
         public TinhTrangHoc? TinhTrangHoc { get; set; }
