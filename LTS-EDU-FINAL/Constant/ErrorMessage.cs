@@ -2,6 +2,6 @@
 {
         public enum ErrorMessage
         {
-            ThanhCong, ThatBai, KhongTonTai, DaTonTai, DuLieuTrong, TenDaTonTai, EmailDaTonTai
+            ThanhCong, ThatBai, KhongTonTai, DaTonTai, DuLieuTrong, TenDaTonTai, EmailDaTonTai, DuLieuNhapVaoKhongDu, TenOrEmailDaTonTai
         }
 }

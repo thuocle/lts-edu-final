@@ -55,10 +55,15 @@ namespace LTS_EDU_FINAL.Services
             using (var trans = await dbContext.Database.BeginTransactionAsync())
             {
                 try
-                {
+                {   
+                    //tim ra hoc vien de sua
                     var hvNow = await GetHocVien(hvID);
                     if (hvNow == null)
                         return ErrorMessage.KhongTonTai;
+                    //kiem tra ten email + format ten
+                    if (await TenHocVienExistenceAsync(hv.HoTen) || await EmailHocVienExistenceAsync(hv.Email))
+                        return ErrorMessage.TenOrEmailDaTonTai;
+                    hv.HoTen = await FormatName(hv.HoTen);
 
                     var config = new MapperConfiguration(cfg => {
                         cfg.CreateMap<HocVien, HocVien>()
@@ -88,12 +93,8 @@ namespace LTS_EDU_FINAL.Services
             {
                 try
                 {
-                    if (await TenHocVienExistenceAsync(hv.HoTen))
-                    {
-                        if (await EmailHocVienExistenceAsync(hv.Email))
-                            return ErrorMessage.EmailDaTonTai;
-                        return ErrorMessage.TenDaTonTai;
-                    }
+                    if (await TenHocVienExistenceAsync(hv.HoTen) || await EmailHocVienExistenceAsync(hv.Email))
+                        return ErrorMessage.TenOrEmailDaTonTai;
                     hv.HoTen = await FormatName(hv.HoTen);
                     await dbContext.AddAsync(hv);
                     await dbContext.SaveChangesAsync();
@@ -114,9 +115,9 @@ namespace LTS_EDU_FINAL.Services
         {
             var lst = dbContext.HocVien.AsQueryable();
             if(!tenhv.IsNullOrEmpty() ||  !email.IsNullOrEmpty()) 
-            {
-                lst = lst.Where(x => x.HoTen.Contains(tenhv) || x.Email.Contains(email));
-            }
+                lst = lst.Where(x => x.HoTen.Contains(tenhv) || x.Email.Contains(email)); 
+            if(!tenhv.IsNullOrEmpty() &&  !email.IsNullOrEmpty()) 
+                lst = lst.Where(x => x.HoTen.Contains(tenhv) && x.Email.Contains(email));
             var data = PageInfo<HocVien>.ToPageInfo(page, lst);
             page.TotalItem = await lst.CountAsync();
             return new PageInfo<HocVien>(page, data);
