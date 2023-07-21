@@ -95,6 +95,8 @@ namespace LTS_EDU_FINAL.Services
                 {
                     if (await TenHocVienExistenceAsync(hv.HoTen) || await EmailHocVienExistenceAsync(hv.Email))
                         return ErrorMessage.TenOrEmailDaTonTai;
+                    if (hv.IsValidPhoneNumber() || hv.IsValidEmail())
+                        return ErrorMessage.SDTOrEmailKhongDungDinhDang;
                     hv.HoTen = await FormatName(hv.HoTen);
                     await dbContext.AddAsync(hv);
                     await dbContext.SaveChangesAsync();

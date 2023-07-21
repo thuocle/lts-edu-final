@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace LTS_EDU_FINAL.Entities
 {
@@ -27,6 +28,19 @@ namespace LTS_EDU_FINAL.Entities
         [MaxLength(50)]
         public string? SoNha { get; set; }
         [JsonIgnore]
-        public IEnumerable<DangKyHoc>? DangKyHoc { get; set; }  
+        public IEnumerable<DangKyHoc>? DangKyHoc { get; set; }
+        public bool IsValidEmail()
+        {
+            string emailPattern = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            return Regex.IsMatch(Email, emailPattern);
+        }
+
+        public bool IsValidPhoneNumber()
+        {
+            string phoneNumberPattern = @"^0[0-9]{9,10}$";
+            return Regex.IsMatch(SoDienThoai, phoneNumberPattern);
+        }
+
+        
     }
 }

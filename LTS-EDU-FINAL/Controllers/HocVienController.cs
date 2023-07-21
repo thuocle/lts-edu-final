@@ -33,10 +33,12 @@ namespace LTS_EDU_FINAL.Controllers
         public async Task<IActionResult> SuaHocVien([FromBody] HocVien kh, [FromQuery] int hvID)
         {
             var ret = await _HocVienServices.SuaHocVienAsync(kh, hvID);
-            if (ret == ErrorMessage.ThanhCong)
-                return Ok("Sua thanh cong");
+            if (ret == ErrorMessage.SDTOrEmailKhongDungDinhDang)
+                return BadRequest("So dien thoai hoac email khong dung yeu cau!");
             if (ret == ErrorMessage.TenOrEmailDaTonTai)
                 return BadRequest("Họ tên hoặc Email đã tồn tại");
+            if (ret == ErrorMessage.ThanhCong)
+                return Ok("Sua thanh cong");
             return BadRequest("Sua That bai");
         }
         [HttpDelete("xoaHocVien")]
