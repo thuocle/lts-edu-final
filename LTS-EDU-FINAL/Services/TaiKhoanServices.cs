@@ -25,6 +25,10 @@ namespace LTS_EDU_FINAL.Services
         {
             return await dbContext.TaiKhoan.AnyAsync(x => x.TenTaiKhoan == tenTK);
         }
+        private async Task<bool> TenTaiKhoanBeforeUpdateExistenceAsync(string tenTK, TaiKhoan tkNow)
+        {
+            return await dbContext.TaiKhoan.AnyAsync(x => x.TenTaiKhoan == tenTK && tenTK != tkNow.TenTaiKhoan);
+        }
         #endregion
         public async Task<PageInfo<TaiKhoan>> HienThiTaiKhoanAsync(Pagination page)
         {
@@ -45,7 +49,7 @@ namespace LTS_EDU_FINAL.Services
                     if (tkNow == null)
                         return ErrorMessage.KhongTonTai;
                     //kiem tra password va tentaikhoan
-                    if (await TenTaiKhoanExistenceAsync(tk.TenTaiKhoan))
+                    if (await TenTaiKhoanBeforeUpdateExistenceAsync(tk.TenTaiKhoan, tkNow))
                         return ErrorMessage.TenTaiKhoanDaTonTai;
                     if (!tk.IsValidPassword())
                         return ErrorMessage.MatKhauKhongDungYeuCau;

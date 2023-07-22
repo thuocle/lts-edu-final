@@ -25,8 +25,10 @@ namespace LTS_EDU_FINAL.Controllers
             var ret = await _HocVienServices.ThemHocVienAsync(kh);
             if (ret == ErrorMessage.ThanhCong)
                 return Ok("Them thanh cong");
-            if (ret == ErrorMessage.TenOrEmailDaTonTai)
-                return BadRequest("Họ tên hoặc Email đã tồn tại");
+            if (ret == ErrorMessage.SDTOrEmailKhongDungDinhDang)
+                return BadRequest("So dien thoai hoac email khong dung yeu cau!");
+            if (ret == ErrorMessage.SDTOrEmailDaTonTai)
+                return BadRequest("SDT hoặc Email đã tồn tại");
             return BadRequest("Them That bai");
         }
         [HttpPut("suaHocVien")]
@@ -35,8 +37,8 @@ namespace LTS_EDU_FINAL.Controllers
             var ret = await _HocVienServices.SuaHocVienAsync(kh, hvID);
             if (ret == ErrorMessage.SDTOrEmailKhongDungDinhDang)
                 return BadRequest("So dien thoai hoac email khong dung yeu cau!");
-            if (ret == ErrorMessage.TenOrEmailDaTonTai)
-                return BadRequest("Họ tên hoặc Email đã tồn tại");
+            if (ret == ErrorMessage.SDTOrEmailDaTonTai)
+                return BadRequest("SDT hoặc Email đã tồn tại");
             if (ret == ErrorMessage.ThanhCong)
                 return Ok("Sua thanh cong");
             return BadRequest("Sua That bai");

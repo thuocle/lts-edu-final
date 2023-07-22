@@ -6,6 +6,7 @@ using LTS_EDU_FINAL.IServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace LTS_EDU_FINAL.Services
 {
@@ -22,11 +23,19 @@ namespace LTS_EDU_FINAL.Services
         {
             return await dbContext.HocVien.FirstOrDefaultAsync(x => x.HocVienID == hvID);
         }
-        private async Task<bool> TenHocVienExistenceAsync(string tenHV)
+        private async Task<bool> SDTExistenceBeforeUpdateAsync(string sdt, HocVien? hvNow)
         {
-            return await dbContext.HocVien.AnyAsync(x => x.HoTen == tenHV);
+            return await dbContext.HocVien.AnyAsync(x => x.SoDienThoai == sdt && sdt != hvNow.SoDienThoai);
         } 
-        private async Task<bool> EmailHocVienExistenceAsync(string email)
+        private async Task<bool> EmailBeforeUpdateExistenceAsync(string email, HocVien? hvNow)
+        {
+           return await dbContext.HocVien.AnyAsync(x => x.Email == email && email != hvNow.Email);
+        }
+        private async Task<bool> SDTExistenceBeforeAddAsync(string sdt)
+        {
+            return await dbContext.HocVien.AnyAsync(x => x.SoDienThoai == sdt);
+        } 
+        private async Task<bool> EmailBeforeAddExistenceAsync(string email)
         {
            return await dbContext.HocVien.AnyAsync(x => x.Email == email);
         }
@@ -34,11 +43,11 @@ namespace LTS_EDU_FINAL.Services
         {
             // Loại bỏ các dấu cách không cần thiết ở đầu và cuối chuỗi
             name = name.Trim();
-
+            // Loại bỏ các dấu cách nhiều hơn 1 dấu cách ở giữa các từ
+            name = Regex.Replace(name, @"\s+", " ");
             // Chuyển đổi chuỗi thành chữ hoa đầu của mỗi từ (title case)
             TextInfo textInfo = new CultureInfo("vi-VN", false).TextInfo;
             name = textInfo.ToTitleCase(name);
-
             return name;
         }
         #endregion
@@ -60,9 +69,12 @@ namespace LTS_EDU_FINAL.Services
                     var hvNow = await GetHocVien(hvID);
                     if (hvNow == null)
                         return ErrorMessage.KhongTonTai;
-                    //kiem tra ten email + format ten
-                    if (await TenHocVienExistenceAsync(hv.HoTen) || await EmailHocVienExistenceAsync(hv.Email))
-                        return ErrorMessage.TenOrEmailDaTonTai;
+                    //kiem tra sdt email + format ten
+                    if ((await SDTExistenceBeforeUpdateAsync(hv.SoDienThoai, hvNow) || await EmailBeforeUpdateExistenceAsync(hv.Email, hvNow)))
+                        return ErrorMessage.SDTOrEmailDaTonTai;
+
+                    if (!hv.IsValidPhoneNumber() || !hv.IsValidEmail())
+                        return ErrorMessage.SDTOrEmailKhongDungDinhDang;
                     hv.HoTen = await FormatName(hv.HoTen);
 
                     var config = new MapperConfiguration(cfg => {
@@ -93,9 +105,9 @@ namespace LTS_EDU_FINAL.Services
             {
                 try
                 {
-                    if (await TenHocVienExistenceAsync(hv.HoTen) || await EmailHocVienExistenceAsync(hv.Email))
-                        return ErrorMessage.TenOrEmailDaTonTai;
-                    if (hv.IsValidPhoneNumber() || hv.IsValidEmail())
+                    if (await SDTExistenceBeforeAddAsync(hv.SoDienThoai) || await EmailBeforeAddExistenceAsync(hv.Email))
+                        return ErrorMessage.SDTOrEmailDaTonTai;
+                    if (!hv.IsValidPhoneNumber() || !hv.IsValidEmail())
                         return ErrorMessage.SDTOrEmailKhongDungDinhDang;
                     hv.HoTen = await FormatName(hv.HoTen);
                     await dbContext.AddAsync(hv);
